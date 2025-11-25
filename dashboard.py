@@ -257,19 +257,19 @@ if trace_data:
     
     fig_combined.update_layout(
         title='Multi-Metric Overview',
-        xaxis=dict(title='Step'),
-        yaxis=dict(
-            title='Mid Price',
-            titlefont=dict(color='blue'),
-            tickfont=dict(color='blue')
-        ),
-        yaxis2=dict(
-            title='Inventory',
-            titlefont=dict(color='orange'),
-            tickfont=dict(color='orange'),
-            overlaying='y',
-            side='right'
-        ),
+        xaxis={'title': 'Step'},
+        yaxis={
+            'title': 'Mid Price',
+            'titlefont': {'color': 'blue'},
+            'tickfont': {'color': 'blue'}
+        },
+        yaxis2={
+            'title': 'Inventory',
+            'titlefont': {'color': 'orange'},
+            'tickfont': {'color': 'orange'},
+            'overlaying': 'y',
+            'side': 'right'
+        },
         height=400
     )
     st.plotly_chart(fig_combined, use_container_width=True)
