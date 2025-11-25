@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import plotly.express as px
 import json
 import os
@@ -236,42 +237,32 @@ if trace_data:
     
     # Combined view
     st.subheader("🔄 Combined Multi-Metric View")
-    fig_combined = go.Figure()
     
-    # Normalize data for comparison
-    fig_combined.add_trace(go.Scatter(
-        x=steps,
-        y=mids,
-        mode='lines',
-        name='Mid Price',
-        yaxis='y1'
-    ))
+    # Create figure with secondary y-axis using make_subplots
+    fig_combined = make_subplots(specs=[[{"secondary_y": True}]])
     
-    fig_combined.add_trace(go.Scatter(
-        x=steps,
-        y=inventories,
-        mode='lines',
-        name='Inventory',
-        yaxis='y2'
-    ))
+    # Add traces
+    fig_combined.add_trace(
+        go.Scatter(x=steps, y=mids, mode='lines', name='Mid Price', line=dict(color='blue')),
+        secondary_y=False
+    )
     
+    fig_combined.add_trace(
+        go.Scatter(x=steps, y=inventories, mode='lines', name='Inventory', line=dict(color='orange')),
+        secondary_y=True
+    )
+    
+    # Update axes labels
+    fig_combined.update_xaxes(title_text="Step")
+    fig_combined.update_yaxes(title_text="Mid Price", secondary_y=False)
+    fig_combined.update_yaxes(title_text="Inventory", secondary_y=True)
+    
+    # Update layout
     fig_combined.update_layout(
-        title='Multi-Metric Overview',
-        xaxis={'title': 'Step'},
-        yaxis={
-            'title': 'Mid Price',
-            'titlefont': {'color': 'blue'},
-            'tickfont': {'color': 'blue'}
-        },
-        yaxis2={
-            'title': 'Inventory',
-            'titlefont': {'color': 'orange'},
-            'tickfont': {'color': 'orange'},
-            'overlaying': 'y',
-            'side': 'right'
-        },
+        title_text='Multi-Metric Overview',
         height=400
     )
+    
     st.plotly_chart(fig_combined, use_container_width=True)
 
 # Performance metrics
