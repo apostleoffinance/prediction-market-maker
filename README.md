@@ -2,6 +2,8 @@
 
 A production-grade market-making execution bot for binary event contracts (prediction markets) with dynamic pricing, inventory management, and real-time risk controls.
 
+🚀 **[Live Dashboard Demo](https://apostleoffinance-prediction-market-maker-dashboard-avzeog.streamlit.app/)** | 📦 **[GitHub Repository](https://github.com/apostleoffinance/prediction-market-maker)**
+
 ## 📋 Table of Contents
 - [Architecture Overview](#architecture-overview)
 - [How to Run Simulations](#how-to-run-simulations)
@@ -56,20 +58,25 @@ quant_bot_submission/
 
 ### Setup Instructions
 
-**1. Create and activate virtual environment:**
+**1. Clone the repository:**
 ```bash
-cd quant_bot_submission
+git clone https://github.com/apostleoffinance/prediction-market-maker.git
+cd prediction-market-maker
+```
+
+**2. Create and activate virtual environment:**
+```bash
 python3 -m venv prediction_market
 source prediction_market/bin/activate  # On macOS/Linux
 # prediction_market\Scripts\activate  # On Windows
 ```
 
-**2. Install dependencies:**
+**3. Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-**3. Run the simulation:**
+**4. Run the simulation:**
 ```bash
 python3 main.py
 ```
@@ -612,9 +619,17 @@ class MarketDataStore:
 
 ---
 
-## 📧 Questions?
+## 📧 Contact & Links
 
-For questions about implementation details or deployment strategies, please refer to the code comments or reach out for clarification.
+**Project Links:**
+- 🚀 **Live Dashboard**: [https://apostleoffinance-prediction-market-maker-dashboard-avzeog.streamlit.app/](https://apostleoffinance-prediction-market-maker-dashboard-avzeog.streamlit.app/)
+- 📦 **GitHub Repository**: [https://github.com/apostleoffinance/prediction-market-maker](https://github.com/apostleoffinance/prediction-market-maker)
+
+**Developer:**
+- **Name**: Olaoluwa Tunmise
+- **GitHub**: [@apostleoffinance](https://github.com/apostleoffinance)
+
+For questions about implementation details or deployment strategies, please refer to the code comments or open an issue on GitHub.
 
 **Current Implementation Status:**
 ✅ Core market making logic  
