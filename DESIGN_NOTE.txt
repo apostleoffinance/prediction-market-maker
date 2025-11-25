@@ -1,0 +1,46 @@
+
+Design Note - Quant Execution Bot (MVP)
+=======================================
+
+Goal and scope
+--------------
+Build a simple market-making execution bot that quotes two-sided markets for binary event contracts,
+updates quotes based on order flow, tracks inventory and PnL, and enforces risk constraints.
+
+Architecture & data flow
+------------------------
+1. MarketState: each market holds its mid probability, spread, inventory, exposure, PnL and fills.
+2. MarketMaker: contains quoting logic (quote function) and adaptation logic (on_fill).
+   - quote() returns bid, ask and suggested size based on current mid, inventory and recent imbalance.
+   - on_fill() updates the imbalance window and shades mid to respond to trade flow and inventory.
+3. ExecutionEngine: simulates market orders per tick (small random taker orders) and routes them to MarketMaker.
+4. Logger: persists final market summaries and a time-series trace for analysis.
+
+Pricing logic
+-------------
+- Mid is a probability in [0,1]. Start with an initial mid (e.g., 0.5) and move it according to observed flow.
+- Spread is adaptive: base_spread * (1 + factor*|imbalance| + factor2*|inventory|)
+- Quoting sizes are inversely related to inventory to limit accumulation.
+- When one side is dominating (heavy buy flow), the mid drifts upward and the spread widens.
+- When inventory exceeds a high threshold, mid is adjusted defensively to encourage inventory reduction.
+
+Risk management
+---------------
+- Inventory limit: bot reduces quoting and shades mid when inventory approaches limit (inventory_limit).
+- Exposure limit: bot ceases to offer aggressive quotes if exposure exceeds threshold.
+- Circuit breaker: in this MVP a simple PnL drawdown trigger can stop the bot. In production, add multi-layer checks.
+
+Resilience & state recovery
+---------------------------
+- State is held in-memory for the simulation. For resilience, persist MarketState snapshots periodically to disk (JSON)
+  and reload on restart. On reconnect, reload last snapshot and gradually resume quoting using a conservative spread.
+
+Trade-offs & scalability
+------------------------
+- This MVP uses a simplified match model and immediate fills when takers cross the quoted price.
+- A production system would use a proper limit order book, asynchronous I/O, and deterministic matching.
+- For performance, critical sections (matching, risk checks) should be written in Rust/C++ and wrapped for Python orchestration.
+
+Metrics
+-------
+- Fill count, notional, PnL, max drawdown, average spread and final inventory are produced after simulation.

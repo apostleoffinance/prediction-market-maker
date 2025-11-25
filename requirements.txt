@@ -1,0 +1,19 @@
+# Quant Execution Bot - Requirements
+# Python 3.8+ required
+
+# This project uses only Python standard library modules:
+# - os, json, time, csv (file I/O and utilities)
+# - dataclasses, typing (type hints and data structures)
+# - random, math (numerical operations)
+
+# No external dependencies required for core functionality
+
+# Optional: For development and testing (uncomment if needed)
+# pytest>=7.0.0
+# black>=22.0.0
+# flake8>=4.0.0
+
+# For visualization/dashboard
+streamlit>=1.20.0
+plotly>=5.0.0
+pandas>=1.5.0
