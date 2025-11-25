@@ -118,6 +118,15 @@ with col2:
 
 # Market details table
 st.header("📋 Detailed Market Metrics")
+
+# Format the dataframe with color coding
+def color_pnl(val):
+    if val > 0:
+        return 'background-color: #d4edda; color: #155724'
+    elif val < 0:
+        return 'background-color: #f8d7da; color: #721c24'
+    return ''
+
 st.dataframe(
     df_report.style.format({
         'mid': '{:.4f}',
@@ -126,7 +135,7 @@ st.dataframe(
         'pnl': '${:.2f}',
         'notional': '${:.2f}',
         'max_drawdown': '${:.2f}'
-    }).background_gradient(subset=['pnl'], cmap='RdYlGn'),
+    }).applymap(color_pnl, subset=['pnl']),
     use_container_width=True,
     height=200
 )
